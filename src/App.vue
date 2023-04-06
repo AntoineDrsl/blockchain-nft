@@ -1,7 +1,4 @@
 <template>
-  <nav>
-    <router-link to="/">Galerie des avatars IIM</router-link>
-  </nav>
   <router-view/>
 </template>
 

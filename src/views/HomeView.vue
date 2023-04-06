@@ -1,15 +1,20 @@
 <template>
+  <nav class="navbar navbar-dark bg-dark justify-content-between mb-3">
+    <a class="navbar-brand text-white">Group 2 avatars gallery</a>
+    <form class="form-inline">
+      <button v-if="!connected" class="btn btn-outline-white my-2 my-sm-0" @click.prevent="connect">
+        Connecter mon wallet
+      </button>
+      <div v-else class="text-white my-2 my-sm-0">
+        Compte connecté: {{ currentAccount }}
+      </div>
+    </form>
+  </nav>
   <div class="home">
     <div v-if="error" class="alert alert-danger">
       {{ error }}
     </div>
-    <button
-      v-if="!connected"
-      @click="connect"
-    >
-      Connecter mon porte-feuille
-    </button>
-    <div v-else>
+    <div>
       <div class="container">
         <div class="row">
           <div
@@ -49,6 +54,7 @@ let contract;
 const error = ref('');
 const connected = ref(false);
 const avatars = ref([]);
+const currentAccount = ref('');
 
 async function getNft() {
   web3 = new Web3(window.ethereum);
@@ -74,13 +80,12 @@ async function getNft() {
 }
 
 function connect() {
+  if (window.ethereum.selectedAddress) {
+    return;
+  }
   window.ethereum.request({ method: 'eth_requestAccounts' })
     .then(() => {
-      connected.value = true; // If users successfully connected their wallet
-      getNft();
-      window.ethereum.on('accountsChanged', () => {
-        getNft();
-      });
+      connected.value = true;
     });
 }
 
@@ -107,5 +112,25 @@ onMounted(() => {
   if (!window.ethereum) {
     error.value = 'Merci d\'installer MetaMask';
   }
+
+  // Listen account change
+  window.ethereum.on('accountsChanged', (accounts) => {
+    if (!accounts.length) {
+      connected.value = false;
+    }
+    currentAccount.value = accounts.length ? accounts[0] : '';
+    getNft();
+  });
+
+  // Check if already connected
+  setTimeout(() => {
+    if (window.ethereum.selectedAddress) {
+      currentAccount.value = window.ethereum.selectedAddress;
+      connected.value = true;
+    }
+  }, 500);
+
+  // Launch NFT
+  getNft();
 });
 </script>
