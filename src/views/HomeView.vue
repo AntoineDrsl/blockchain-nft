@@ -1,7 +1,7 @@
 <template>
   <nav class="navbar navbar-dark bg-dark justify-content-between mb-3">
-    <a class="navbar-brand text-white">Group 2 avatars gallery</a>
-    <form class="form-inline">
+    <a class="navbar-brand text-white">Gallerie des avatars du groupe 2</a>
+    <form v-if="!noProvider" class="form-inline">
       <button v-if="!connected" class="btn btn-outline-white my-2 my-sm-0" @click.prevent="connect">
         Connecter mon wallet
       </button>
@@ -27,10 +27,10 @@
               <div class="card-body">
                 <h5 class="card-title">{{ avatar.name }}</h5>
                 <p class="card-text">Prix: {{ web3.utils.fromWei(avatar.price, "ether") }} ETH</p>
-                <a v-if="!avatar.mintMessage" href="#" class="btn btn-primary" @click="mint(i, avatar.price)">
+                <button v-if="!avatar.mintMessage && connected" class="btn btn-primary" @click="mint(i, avatar.price)">
                   Mint now
-                </a>
-                <div v-else>
+                </button>
+                <div v-else-if="connected">
                   {{ avatar.mintMessage }}
                 </div>
               </div>
@@ -55,6 +55,7 @@ const error = ref('');
 const connected = ref(false);
 const avatars = ref([]);
 const currentAccount = ref('');
+const noProvider = ref(false);
 
 async function getNft() {
   web3 = new Web3(window.ethereum);
@@ -111,6 +112,8 @@ async function mint(avatarId, price) {
 onMounted(() => {
   if (!window.ethereum) {
     error.value = 'Merci d\'installer MetaMask';
+    noProvider.value = true;
+    return;
   }
 
   // Listen account change

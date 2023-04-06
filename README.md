@@ -4,6 +4,10 @@
 
 Antoine Durussel, Julien Dupont, Thomas Leux, Mael Bourdeleix, Baptiste Ménard, Yanny Ouzid, Heddi Brahiti
 
+## Preproduction link
+
+https://blockchain-nft-group2.netlify.app/
+
 ## Installation
 
 ### Install packages
@@ -29,7 +33,7 @@ truffle migrate --network development --reset all
 
 ### Use application
 In our application you can :
-- Connect your wallet
+- Connect your wallet and change account without reload
 - View all avatars of the gallery
 - See if an avatar is owned by you or someone else
 - Mint an avatar (only 2 by person !)
