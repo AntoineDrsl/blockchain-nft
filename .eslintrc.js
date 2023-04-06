@@ -15,5 +15,8 @@ module.exports = {
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-unused-vars': 'warn',
     'import/no-extraneous-dependencies': 'off',
+    'no-await-in-loop': 'off',
+    'max-len': 'off',
   },
+  ignorePatterns: ['truffle-config.js'],
 };
