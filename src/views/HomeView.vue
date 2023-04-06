@@ -28,7 +28,7 @@
                 <h5 class="card-title">{{ avatar.name }}</h5>
                 <p class="card-text">Prix: {{ web3.utils.fromWei(avatar.price, "ether") }} ETH</p>
                 <button v-if="!avatar.mintMessage && connected" class="btn btn-primary" @click="mint(i, avatar.price)">
-                  Mint now
+                  Acheter
                 </button>
                 <div v-else-if="connected">
                   {{ avatar.mintMessage }}
