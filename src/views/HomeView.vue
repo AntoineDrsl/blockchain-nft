@@ -1,18 +1,35 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    {{ error }}
+    <button
+      v-if="!connected"
+      @click="connect"
+    >
+      Connecter mon porte-feuille
+    </button>
+    <div v-else>
+      Vous êtes connecté !
+    </div>
   </div>
 </template>
 
-<script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue';
+<script setup>
+import Web3 from 'web3';
+import { ref, onMounted } from 'vue';
 
-export default {
-  name: 'HomeView',
-  components: {
-    HelloWorld,
-  },
-};
+const error = ref('');
+const connected = ref(false);
+
+function connect() {
+  window.ethereum.request({ method: 'eth_requestAccounts' })
+    .then(() => {
+      connected.value = true; // If users successfully connected their wallet
+    });
+}
+
+onMounted(() => {
+  if (!window.ethereum) {
+    error.value = 'Merci d\'installer MetaMask';
+  }
+});
 </script>
