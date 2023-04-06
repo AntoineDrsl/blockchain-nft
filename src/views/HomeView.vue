@@ -62,21 +62,25 @@ async function getNft() {
   contract = new web3.eth.Contract(abi, CONTRACT_ADDRESS);
   avatars.value = [];
 
-  const totalSupply = await contract.methods.totalSupply().call();
-  for (let i = 0; i < totalSupply; i += 1) {
-    const owner = await contract.methods.avatarToOwner(i).call();
-    let mintMessage = null;
-    if (owner.toLowerCase() === window.ethereum.selectedAddress) {
-      mintMessage = 'Cet avatar vous appartient';
-    } else if (owner !== '0x0000000000000000000000000000000000000000') {
-      mintMessage = 'Cet avatar a déjà été acheté';
-    }
+  try {
+    const totalSupply = await contract.methods.totalSupply().call();
+    for (let i = 0; i < totalSupply; i += 1) {
+      const owner = await contract.methods.avatarToOwner(i).call();
+      let mintMessage = null;
+      if (owner.toLowerCase() === window.ethereum.selectedAddress) {
+        mintMessage = 'Cet avatar vous appartient';
+      } else if (owner !== '0x0000000000000000000000000000000000000000') {
+        mintMessage = 'Cet avatar a déjà été acheté';
+      }
 
-    const avatar = {
-      mintMessage,
-      ...await contract.methods.avatars(i).call(),
-    };
-    avatars.value.push(avatar);
+      const avatar = {
+        mintMessage,
+        ...await contract.methods.avatars(i).call(),
+      };
+      avatars.value.push(avatar);
+    }
+  } catch (err) {
+    error.value = 'Une erreur est survenue. Vérifiez que vous êtes sur le réseau Mumbai (ou Ganache en développement).';
   }
 }
 
