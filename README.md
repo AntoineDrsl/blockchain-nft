@@ -1,24 +1,23 @@
 # blockchain-nft
 
-## Project setup
+## Groupe 2
+
+Antoine Durussel, Julien Dupont, Thomas Leux, Mael Bourdeleix, Baptiste Ménard, Yanny Ouzid, Heddi Brahiti
+
+## Installation
+
+### Install packages
 ```
 yarn install
 ```
 
-### Compiles and hot-reloads for development
+### Launch frontend
 ```
 yarn serve
 ```
 
-### Compiles and minifies for production
+### With Ganache
 ```
-yarn build
+truffle migrate --network development --reset all
 ```
-
-### Lints and fixes files
-```
-yarn lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+- Update VUE_APP_CONTRACT_ADDRESS with new contract address

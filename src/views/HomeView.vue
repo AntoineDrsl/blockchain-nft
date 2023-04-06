@@ -42,7 +42,7 @@ import Web3 from 'web3';
 import { ref, onMounted } from 'vue';
 import { abi } from '@/assets/TeamNft.json';
 
-const CONTRACT_ADDRESS = '0xf0fc8aE8B75c58AFEAe31C7C3C803aAB9AE5ad09';
+const CONTRACT_ADDRESS = process.env.VUE_APP_CONTRACT_ADDRESS;
 let web3;
 let contract;
 

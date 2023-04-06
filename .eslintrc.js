@@ -17,6 +17,7 @@ module.exports = {
     'import/no-extraneous-dependencies': 'off',
     'no-await-in-loop': 'off',
     'max-len': 'off',
+    'prefer-destructuring': 'off',
   },
   ignorePatterns: ['truffle-config.js'],
 };
